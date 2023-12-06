@@ -1,7 +1,7 @@
 package org.expression;
 
-import org.expression.binaryoperations.Multiply;
-import org.expression.binaryoperations.Subtract;
+import org.expression.binaryoperations.arithmetic.Multiply;
+import org.expression.binaryoperations.arithmetic.Subtract;
 
 public class Main {
     public static void main(String[] args) {

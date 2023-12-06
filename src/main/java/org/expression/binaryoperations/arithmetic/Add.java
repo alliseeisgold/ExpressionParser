@@ -1,5 +1,6 @@
-package org.expression.binaryoperations;
+package org.expression.binaryoperations.arithmetic;
 
+import org.expression.binaryoperations.BinaryOperation;
 import org.expression.interfaces.Expression;
 import org.expression.interfaces.GeneralExpression;
 
