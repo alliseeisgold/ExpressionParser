@@ -1,8 +1,9 @@
 package org.expression;
 
 import org.expression.interfaces.Expression;
+import org.expression.interfaces.GeneralExpression;
 
-public final class Const implements Expression {
+public final class Const implements GeneralExpression {
     private final int value;
 
     public Const(int value) {
@@ -30,5 +31,10 @@ public final class Const implements Expression {
     @Override
     public int hashCode() {
         return Integer.hashCode(value);
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return value;
     }
 }

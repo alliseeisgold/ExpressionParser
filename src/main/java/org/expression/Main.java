@@ -1,18 +1,19 @@
 package org.expression;
 
+import org.expression.binaryoperations.arithmetic.Add;
 import org.expression.binaryoperations.arithmetic.Multiply;
 import org.expression.binaryoperations.arithmetic.Subtract;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(new Subtract(
-                new Multiply(
-                        new Const(2),
-                        new Variable("x")
-                ),
-                new Const(3)
-        ).toString());
-        System.out.println(new Multiply(new Const(2), new Variable("x"))
-                .equals(new Multiply(new Const(2), new Variable("x"))));
+        int X = Integer.parseInt(args[0]);
+        Variable x = new Variable("x");
+        System.out.println(
+                new Add(
+                        new Subtract(
+                                new Multiply(x, x),
+                                new Multiply(new Const(2), x)),
+                        new Const(1)).evaluate(X)
+        );
     }
 }
