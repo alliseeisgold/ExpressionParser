@@ -1,5 +1,7 @@
 package org.expression;
 
+import org.expression.interfaces.Expression;
+
 import java.util.Objects;
 
 public class Variable implements Expression {

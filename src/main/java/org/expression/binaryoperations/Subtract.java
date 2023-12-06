@@ -1,9 +1,10 @@
 package org.expression.binaryoperations;
 
-import org.expression.Expression;
+import org.expression.interfaces.Expression;
+import org.expression.interfaces.GeneralExpression;
 
 public class Subtract extends BinaryOperation {
-    public Subtract(Expression left, Expression right) {
+    public Subtract(GeneralExpression left, GeneralExpression right) {
         super(left, right, "-");
     }
 

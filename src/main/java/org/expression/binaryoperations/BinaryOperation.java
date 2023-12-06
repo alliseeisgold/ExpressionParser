@@ -1,16 +1,17 @@
 package org.expression.binaryoperations;
 
-import org.expression.Expression;
+import org.expression.interfaces.Expression;
+import org.expression.interfaces.GeneralExpression;
 
 import java.util.Objects;
 
-public abstract class BinaryOperation implements Expression {
-    private final Expression left;
-    private final Expression right;
+public abstract class BinaryOperation implements GeneralExpression {
+    private final GeneralExpression left;
+    private final GeneralExpression right;
 
     private final String operationType;
 
-    public BinaryOperation(Expression left, Expression right, String operationType) {
+    public BinaryOperation(GeneralExpression left, GeneralExpression right, String operationType) {
         this.left = left;
         this.right = right;
         this.operationType = operationType;
@@ -28,6 +29,10 @@ public abstract class BinaryOperation implements Expression {
         return operationResult(left.evaluate(x), right.evaluate(x));
     }
 
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return operationResult(left.evaluate(x, y, z), right.evaluate(x, y, z));
+    }
     @Override
     public int hashCode() {
         return Objects.hash(left, right, this.getClass());

@@ -1,9 +1,10 @@
 package org.expression.binaryoperations;
 
-import org.expression.Expression;
+import org.expression.interfaces.Expression;
+import org.expression.interfaces.GeneralExpression;
 
 public class Add extends BinaryOperation {
-    public Add(Expression left, Expression right) {
+    public Add(GeneralExpression left, GeneralExpression right) {
         super(left, right, "+");
     }
     @Override

@@ -1,9 +1,10 @@
 package org.expression.binaryoperations;
 
-import org.expression.Expression;
+import org.expression.interfaces.Expression;
+import org.expression.interfaces.GeneralExpression;
 
 public class Multiply extends BinaryOperation {
-    public Multiply(Expression left, Expression right) {
+    public Multiply(GeneralExpression left, GeneralExpression right) {
         super(left, right, "*");
     }
     @Override

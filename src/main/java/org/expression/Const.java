@@ -1,5 +1,7 @@
 package org.expression;
 
+import org.expression.interfaces.Expression;
+
 public final class Const implements Expression {
     private final int value;
 

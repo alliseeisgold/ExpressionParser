@@ -1,4 +1,4 @@
-package org.expression;
+package org.expression.interfaces;
 
 public interface Expression {
     int evaluate(int x);
