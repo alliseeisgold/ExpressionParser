@@ -1,4 +1,4 @@
-## Expression
+## Выражения
 **1.** Разработайте классы **Const**, **Variable**, **Add**, **Subtract**, **Multiply**, **Divide** для вычисления выражений с 
 одной переменной в типе `int` (интерфейс **Expression**).  
 
