@@ -85,7 +85,7 @@ new Multiply(new Const(2), new Variable("x"))
 * ошибки разбора выражений;
 * ошибки вычисления выражений.
 
-**2.** Для выражения 1000000*x*x*x*x*x/(x-1) вывод программы должен иметь следующий вид: \
+**2.** Для выражения `1000000*x*x*x*x*x/(x-1)` вывод программы должен иметь следующий вид: \
 x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f\
 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0\
 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;division by zero\
