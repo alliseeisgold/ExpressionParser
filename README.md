@@ -98,7 +98,7 @@ x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f\
 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overflow\
 9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overflow\
 10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overflow\
-Результат `division by zero` (`overflow`) означает, что в процессе вычисления произошло деление на ноль (переполнение).\
+Результат `division by zero` (`overflow`) означает, что в процессе вычисления произошло деление на ноль (переполнение).
 
 **3.** При выполнении задания следует обратить внимание на дизайн и обработку исключений.
 
