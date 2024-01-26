@@ -1,4 +1,4 @@
-package org.expression.parser;
+package org.expression.exceptions;
 
 import org.expression.Const;
 import org.expression.Variable;
@@ -11,22 +11,24 @@ import org.expression.binaryoperations.bitwise.BitwiseOr;
 import org.expression.binaryoperations.bitwise.BitwiseXor;
 import org.expression.interfaces.GeneralExpression;
 import org.expression.interfaces.ThreeVariableExpr;
-import org.expression.opinfo.*;
+import org.expression.opinfo.Operations;
+import org.expression.opinfo.OperationsInformation;
+import org.expression.parser.TripleParser;
 import org.expression.unaryoperations.UnaryMinus;
 
-public class ExpressionParser extends Parser implements TripleParser {
+public class ExprParserWithExceptions extends MainParser implements TripleParser {
     private final int start = OperationsInformation.getStart();
     private final int step = OperationsInformation.getStep();
 
-    public ExpressionParser(StringSource source) {
-        super(source);
+    public ExprParserWithExceptions(StringSource stringSource) {
+        super(stringSource);
     }
 
-    public ExpressionParser() {
+    public ExprParserWithExceptions() {
         super();
     }
 
-    private GeneralExpression parseConst(boolean isNegative) {
+    private GeneralExpression parseConst(boolean isNegative) throws ParsingException {
         StringBuilder base = new StringBuilder();
         if (isNegative) {
             base.append('-');
@@ -35,15 +37,27 @@ public class ExpressionParser extends Parser implements TripleParser {
         try {
             return new Const(Integer.parseInt(base.toString()));
         } catch (NumberFormatException e) {
-            throw new AssertionError("Invalid number: " + base);
+            throw new IllegalConstException(base.toString());
         }
     }
 
-    private GeneralExpression parseVariable() {
-        skipWhiteSpaces();
-        String variable = Character.toString(symbol);
-        nextSymbol();
-        return new Variable(variable);
+    private GeneralExpression parseVariable(String variable) throws InvalidVariableException, MissedVariableException {
+        if (OperationsInformation.isVariable(variable)) {
+            return new Variable(variable);
+        }
+        if (variable.isEmpty()) {
+            throw new MissedVariableException(source.getInformation());
+        }
+        throw new InvalidVariableException(variable, source.getInformation());
+    }
+
+    protected String parseOperationOrValue() {
+        StringBuilder parsed = new StringBuilder();
+        while (isInInterval('0', '9') || isInInterval('A', 'z')) {
+            parsed.append(symbol);
+            nextSymbol();
+        }
+        return parsed.toString();
     }
 
     private Operations getBinaryOperator(int priority) {
@@ -59,10 +73,10 @@ public class ExpressionParser extends Parser implements TripleParser {
 
     private GeneralExpression makeBinaryOperation(GeneralExpression first, GeneralExpression second, Operations operation) {
         return switch (operation) {
-            case ADD -> new Add(first, second);
-            case SUB -> new Subtract(first, second);
-            case MUL -> new Multiply(first, second);
-            case DIV -> new Divide(first, second);
+            case ADD -> new AddWithException(first, second);
+            case SUB -> new SubtractWithException(first, second);
+            case MUL -> new MultiplyWithException(first, second);
+            case DIV -> new DivideWithExceptions(first, second);
             case AND -> new BitwiseAnd(first, second);
             case XOR -> new BitwiseXor(first, second);
             case OR -> new BitwiseOr(first, second);
@@ -70,7 +84,7 @@ public class ExpressionParser extends Parser implements TripleParser {
         };
     }
 
-    private GeneralExpression parseExpressionPart(int priority) {
+    private GeneralExpression parseExpressionPart(int priority) throws ParsingException {
         skipWhiteSpaces();
 
         if (priority == OperationsInformation.getPriority(Operations.CONST)) {
@@ -87,12 +101,12 @@ public class ExpressionParser extends Parser implements TripleParser {
         }
     }
 
-    public GeneralExpression parseExpression() {
+    public GeneralExpression parseExpression() throws ParsingException {
         skipWhiteSpaces();
         return parseExpressionPart(start);
     }
 
-    private GeneralExpression parseValue() {
+    private GeneralExpression parseValue() throws ParsingException {
         skipWhiteSpaces();
         if (isInInterval('0', '9')) {
             return parseConst(false);
@@ -104,17 +118,32 @@ public class ExpressionParser extends Parser implements TripleParser {
         } else if (isExpected('(')) {
             GeneralExpression parsed = parseExpression();
             skipWhiteSpaces();
-            expect(')');
+            if (!expect(')')) {
+                throw new MissedCloseParenthesis(source.getInformation());
+            }
             return parsed;
         } else {
-            return parseVariable();
+            String parsed = parseOperationOrValue();
+            Operations operation = OperationsInformation.getUnaryOperation(parsed);
+            if (operation != null)
+                switch (operation) {
+                    case SQRT:
+                        return new SqrtWithException(parseValue());
+                    case ABS:
+                        return new AbsWithException(parseValue());
+                }
+            return parseVariable(parsed);
         }
     }
 
     @Override
-    public ThreeVariableExpr parse(String expression) throws Exception {
+    public ThreeVariableExpr parse(String expression) throws ParsingException {
         changeSource(new StringSource(expression));
-        return parseExpression();
+        ThreeVariableExpr expr = parseExpression();
+        if (!hasNext()) {
+            return expr;
+        }
+        throw new MissedOpenParenthesis(source.getInformation());
     }
-}
 
+}

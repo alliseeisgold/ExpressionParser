@@ -4,7 +4,7 @@ package org.expression.unaryoperations;
 import org.expression.interfaces.GeneralExpression;
 
 public class Sqrt extends UnaryOperation {
-    private Sqrt(GeneralExpression first) {
+    public Sqrt(GeneralExpression first) {
         super(first);
     }
 
